@@ -1,4 +1,4 @@
-FROM golang:1.22.3 as SITE
+FROM golang:1.25.3 as SITE
 
 WORKDIR /app
 
@@ -11,6 +11,6 @@ COPY css/ ./css/
 
 RUN go build main.go 
 
-EXPOSE 8433
+EXPOSE 443
 
 CMD ["./main"]
