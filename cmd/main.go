@@ -51,11 +51,12 @@ func main() {
 
 	e.Use(middleware.Recover())
 	e.Use(middleware.Logger())
+	e.Use(middleware.CORS())
+	e.Use(middleware.Secure())
 
 	data := NewData()
 
 	e.Renderer = newTemplate()
-	e.Use(middleware.Logger())
 	e.Static("/css", "css")
 
 	e.GET("/", func(c echo.Context) error {
