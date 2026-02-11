@@ -3,16 +3,15 @@ package main
 import (
 	"html/template"
 	"io"
-
-	// "log"
 	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/joho/godotenv"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/labstack/echo/v5"
+	"github.com/labstack/echo/v5/middleware"
+	"github.com/labstack/echo/v5/middleware"
 	"github.com/labstack/gommon/log"
+	"golang.org/x/crypto/acme/autocert"
 )
 
 type Template struct {
@@ -41,7 +40,6 @@ func init() {
 func main() {
 	debug := true
 	godotenv.Load()
-	debug, _ = strconv.ParseBool(os.Getenv("DEBUG"))
 
 	e := echo.New()
 
@@ -66,10 +64,19 @@ func main() {
 	if debug {
 		e.Logger.Fatal(e.Start(":42069"))
 	} else {
-		fullchain := os.Getenv("FULLCHAIN_PATH")
-		privkey := os.Getenv("PRIVKEY_PATH")
-		log.Print(fullchain)
-		log.Print(privkey)
+		m := &autocert.Manager{
+			Prompt:     autocert.AcceptTOS,
+			HostPolicy: autocert.HostWhitelist("example.com", "www.example.com"),
+			Cache: autocert.DirCache("/var/www/.cache"),
+			Email:   "kareljf@gmail.com", 
+		}
+		sc := echo.StartConfig{
+			Address:   ":8443",
+			TLSConfig: m.TLSConfig(),
+		}
+		if err := sc.Start(context.Background(), e); err != nil {
+			e.Logger.Error("failed to start server", "error", err)
+		}
 
 		err := e.StartTLS(":443", fullchain, privkey)
 		if err != http.ErrServerClosed {
