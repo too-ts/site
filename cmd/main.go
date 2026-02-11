@@ -14,17 +14,11 @@ import (
 )
 
 type Template struct {
-	tmpl *template.Template
+	templates *template.Template
 }
 
-func newTemplate() *Template {
-	return &Template{
-		tmpl: template.Must(template.ParseGlob("views/*.html")),
-	}
-}
-
-func (t *Template) Render(w io.Writer, name string, data interface{}, c *echo.Context) error {
-	return t.tmpl.ExecuteTemplate(w, name, data)
+func (t *Template) Render(c *echo.Context, w io.Writer, name string, data any) error {
+	return t.templates.ExecuteTemplate(w, name, data)
 }
 
 type State struct{}
@@ -55,6 +49,12 @@ func main() {
 	e.GET("/", func(c *echo.Context) error {
 		return c.Render(200, "index.html", data)
 	})
+
+	renderer := &Template{
+		templates: template.Must(template.ParseGlob("views/*.html")),
+	}
+
+	e.Renderer = renderer
 
 	m := &autocert.Manager{
 		Prompt:     autocert.AcceptTOS,
