@@ -4,11 +4,3 @@ services:
       context: .
       target: site
     restart: "always"
-    environment:
-      DEBUG: false
-      FULLCHAIN_PATH: "/cert/fullchain.pem"
-      PRIVKEY_PATH: "/cert/privkey.pem"
-    volumes:
-      - ${FULLCHAIN_PATH}:/cert/fullchain.pem
-      - ${PRIVKEY_PATH}:/cert/privkey.pem
-    network_mode: "host"

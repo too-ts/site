@@ -44,7 +44,7 @@ func main() {
 	e.Logger = slog.New(slog.NewJSONHandler(os.Stdout, nil))
 
 	e.Use(middleware.Recover())
-	e.Use(middleware.CORS())
+	e.Use(middleware.CORS("https://www.toots.dev", "https://toots.dev"))
 	e.Use(middleware.Secure())
 
 	data := NewData()
