@@ -1,3 +1,13 @@
+.brand {
+    text-transform: uppercase;
+    border-radius: 2px;
+}
+
+.brand:focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 4px;
+}
+
 .nav {
     display: flex;
     flex-direction: row;

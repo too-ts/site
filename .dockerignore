@@ -1,0 +1,11 @@
+.git
+.env
+tmp/
+dist/
+node_modules/
+*.log
+README.md
+.air.toml
+compose.yaml
+Dockerfile
+.dockerignore

@@ -1,16 +1,29 @@
-FROM golang:1.27.4 as SITE
+FROM golang:1.27.4 AS build
 
-WORKDIR /app
+WORKDIR /src
 
 COPY go.mod go.sum ./
 RUN go mod download
 
-COPY cmd/*.go ./
+COPY cmd/ ./cmd/
 COPY views/ ./views/
 COPY css/ ./css/
+COPY static/ ./static/
 
-RUN go build main.go 
+RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/site ./cmd \
+    && mkdir -p /out/cache && touch /out/cache/.keep && chown -R 65532:65532 /out/cache
 
-EXPOSE 443
+FROM gcr.io/distroless/static-debian12:nonroot AS site
 
-CMD ["./main"]
+WORKDIR /app
+
+COPY --from=build /out/site ./site
+COPY --from=build /out/cache /app/.cache
+COPY views/ ./views/
+COPY css/ ./css/
+COPY static/ ./static/
+
+EXPOSE 8443
+USER 65532:65532
+
+CMD ["./site"]

@@ -1,0 +1,28 @@
+{{ block "head" . }}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2D2C29" />
+    <meta name="description" content="{{ .Description }}" />
+    <link rel="canonical" href="https://toots.dev/" />
+    <title>{{ .Title }}</title>
+
+    <meta property="og:site_name" content="toots.dev" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://toots.dev/" />
+    <meta property="og:title" content="{{ .Title }}" />
+    <meta property="og:description" content="{{ .Description }}" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="{{ .Title }}" />
+    <meta name="twitter:description" content="{{ .Description }}" />
+
+    <link rel="icon" type="image/svg+xml" href="/css/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="/css/index.css" />
+
+    <script src="https://unpkg.com/htmx.org@2.0.11/dist/htmx.min.js"
+        integrity="sha384-2OatzQy1H+Zd/IIrjr1TcuDGqLXeHhbooAyJY1KdQMKnr4LZ22k31GBLdYKHmVjg"
+        crossorigin="anonymous" defer></script>
+{{ end }}

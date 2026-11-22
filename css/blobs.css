@@ -69,3 +69,9 @@
     60% {top: 250px; right: 100px;transform: scale(1);}
     100% {top: 250px; right: 0px; transform: scale(1);}
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .blob {
+        animation: none;
+    }
+}
