@@ -1,9 +1,19 @@
 services:
+  cert-init:
+    image: busybox:1.36.1
+    command: sh -c "chown -R 65532:65532 /certs"
+    volumes:
+      - certs:/certs
+    restart: "no"
+
   site:
     build:
       context: .
       target: site
     restart: "always"
+    depends_on:
+      cert-init:
+        condition: service_completed_successfully
     ports:
       - "443:8443"
     volumes:
