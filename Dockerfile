@@ -1,4 +1,4 @@
-FROM golang:1.25.3 as SITE
+FROM golang:1.27.4 as SITE
 
 WORKDIR /app
 
